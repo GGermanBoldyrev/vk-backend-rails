@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     container_name: ruby_api_postgres
     environment:
       POSTGRES_USER: postgres
@@ -29,4 +29,4 @@ services:
 
 volumes:
   postgres_data:
-    bundle_cache:
+  bundle_cache:
