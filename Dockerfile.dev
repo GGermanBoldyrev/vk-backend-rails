@@ -11,7 +11,7 @@ RUN apt-get update -qq && \
     npm
 
 # Создание директории приложения
-WORKDIR /app
+WORKDIR /rails
 
 # Установка гемов
 COPY Gemfile Gemfile.lock ./
