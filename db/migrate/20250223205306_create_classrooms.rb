@@ -4,6 +4,7 @@ class CreateClassrooms < ActiveRecord::Migration[8.0]
       t.integer :number, null: false
       t.string :letter, null: false
       t.references :school, null: false, foreign_key: true
+      t.integer :students_count, default: 0, null: false
 
       t.timestamps
     end
