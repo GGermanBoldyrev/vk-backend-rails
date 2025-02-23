@@ -24,7 +24,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://postgres:password@postgres:5432/rails_development
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/ruby_api
       RAILS_ENV: development
 
   pgadmin:
