@@ -7,3 +7,17 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+10.times do
+  school = FactoryBot.create(:school)
+  
+  3.times do
+    classroom = FactoryBot.create(:classroom, school: school)
+
+    10.times do
+      FactoryBot.create(:student, classroom: classroom, school: school)
+    end
+  end
+end
+
+puts "Таблицы: schools, classrooms, students - заполнены тестовыми значениями"
