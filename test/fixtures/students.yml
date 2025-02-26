@@ -4,12 +4,12 @@ one:
   first_name: MyString
   last_name: MyString
   surname: MyString
-  school_class: one
+  classname: one
   school: one
 
 two:
   first_name: MyString
   last_name: MyString
   surname: MyString
-  school_class: two
+  classname: two
   school: two
