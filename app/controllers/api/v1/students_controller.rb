@@ -27,12 +27,17 @@ module Api
       end
     
       def destroy
-        result = StudentService.new.delete(params[:id])
-    
-        if result
-          render json: { message: 'Студент удален' }, status: :ok
+        student = StudentService.new.find(params[:id])
+        
+        if student
+          result = StudentService.new.delete(params[:id])
+          if result
+            render json: { message: 'Студент удален' }, status: :ok
+          else
+            render json: { error: 'Ошибка удаления' }, status: :unprocessable_entity
+          end
         else
-          render json: { error: 'Ошибка удаления' }, status: :bad_request
+          render json: { error: 'Некорректный id студента' }, status: :bad_request
         end
       end
     
