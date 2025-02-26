@@ -1,20 +1,6 @@
 module Api
   module V1
     class StudentsController < ApplicationController
-      def index
-        students = StudentService.new.list_all
-        render json: students, status: :ok
-      end
-    
-      def show
-        student = StudentService.new.find(params[:id])
-        if student
-          render json: student, status: :ok
-        else
-          render json: { error: 'Студент не найден' }, status: :not_found
-        end
-      end
-    
       def create
         student_dto = StudentDTO.new(student_params)
         student = StudentService.new.create(student_dto)
@@ -39,6 +25,19 @@ module Api
         else
           render json: { error: 'Некорректный id студента' }, status: :bad_request
         end
+      end
+
+      def by_school
+        unless SchoolService.new.exists?(params[:school_id])
+          return render json: { error: 'Школа не найдена' }, status: :not_found
+        end
+
+        unless ClassroomService.new.exists_in_school?(params[:class_id], params[:school_id])
+          return render json: { error: 'Класс не найден в данной школе' }, status: :not_found
+        end
+
+        students = StudentService.new.list_by_class(params[:class_id])
+        render json: { data: students }, status: :ok
       end
     
       private

@@ -3,14 +3,6 @@ class StudentService
     @repository = repository
   end
 
-  def list_all
-    @repository.all
-  end
-
-  def find(student_id)
-    @repository.find(student_id)
-  end
-
   def create(student_dto)
     student = @repository.create(student_dto.to_h)
     StudentLogger.log_creation(student) if student
@@ -23,5 +15,13 @@ class StudentService
 
     StudentLogger.log_deletion(student)
     @repository.delete(student)
+  end
+
+  def list_by_school(school_id)
+    @repository.find_by_school(school_id)
+  end
+
+  def list_by_class(class_id)
+    @repository.find_by_class(class_id)
   end
 end

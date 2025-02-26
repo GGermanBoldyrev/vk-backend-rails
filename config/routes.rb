@@ -15,7 +15,14 @@ Rails.application.routes.draw do
   # API v1
   namespace :api do
     namespace :v1 do
-      resources :students, only: [:index, :show, :create, :destroy]
+      resources :students, only: [:create, :destroy]
+      get 'schools/:school_id/classes/:class_id/students', to: 'students#by_school'
+
+      resources :schools, only: [] do
+        resources :classes, only: [:index], controller: 'classrooms'
+      end
+
+      match '*unmatched_route', to: 'application#route_not_found', via: :all
     end
   end
 end
