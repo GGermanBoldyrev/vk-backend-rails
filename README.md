@@ -1,24 +1,39 @@
-# README
+# README проекта
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Обзор
+Это проект Ruby API с настройкой Docker для простого развертывания и тестирования. Проект использует PostgreSQL в качестве базы данных и включает автоматические миграции и заполнение данными при запуске.
 
-Things you may want to cover:
+## Быстрый старт
+Для запуска проекта просто используйте Docker Compose:
 
-* Ruby version
+```bash
+docker-compose up -d
+```
 
-* System dependencies
+## Конфигурация
+Для упрощения тестирования переменные окружения предварительно настроены в файле Docker Compose и не хранятся в отдельных .env файлах. Настроены следующие сервисы:
 
-* Configuration
+### PostgreSQL
+- **Пользователь**: postgres
+- **Пароль**: password
+- **База данных**: ruby_api
 
-* Database creation
+### pgAdmin
+- **Email**: admin@example.com
+- **Пароль**: admin
 
-* Database initialization
+## Маршруты API
+API имеет версионность со следующими доступными конечными точками:
 
-* How to run the test suite
+### API v1
+### Доступные маршруты
 
-* Services (job queues, cache servers, search engines, etc.)
+- **POST /api/v1/students** - Создать нового студента
+- **DELETE /api/v1/students/:id** - Удалить студента
+- **GET /api/v1/schools/:school_id/classes/:class_id/students** - Получить студентов по школе и классу
+- **GET /api/v1/schools/:school_id/classes** - Получить классы для конкретной школы
+- **Любой другой маршрут в пространстве имен API** - Возвращает ошибку "маршрут не найден"
 
-* Deployment instructions
-
-* ...
+## Примечания для разработки
+- Миграции и заполнение данными применяются автоматически при запуске
+- Нет необходимости отдельно настраивать переменные окружения
