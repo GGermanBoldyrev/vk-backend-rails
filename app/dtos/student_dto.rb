@@ -1,4 +1,4 @@
-class StudentDTO
+class StudentDto
   attr_reader :first_name, :last_name, :surname, :class_id, :school_id
 
   def initialize(params)

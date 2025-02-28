@@ -1,8 +1,10 @@
+require_dependency 'student_dto'
+
 module Api
   module V1
     class StudentsController < ApplicationController
       def create
-        student_dto = StudentDTO.new(student_params)
+        student_dto = ::StudentDto.new(student_params)
         student = StudentService.new.create(student_dto)
     
         if student
