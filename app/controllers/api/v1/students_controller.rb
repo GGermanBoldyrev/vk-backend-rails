@@ -3,13 +3,18 @@ require_dependency 'student_dto'
 module Api
   module V1
     class StudentsController < ApplicationController
+      SECRET_SALT = 'GGERMAN'
+
       def create
         student_dto = StudentDTO.new(student_params)
         student = StudentService.new.create(student_dto)
 
-        render json: student, status: :created
-      rescue => e
-        render json: { error: e.message }, status: :unprocessable_entity
+        if student
+          token = generate_token(student.id)
+          render json: student, status: :created, headers: { 'X-Auth-Token' => token }
+        else
+          render json: { error: 'Ошибка создания' }, status: :unprocessable_entity
+        end
       end
     
       def destroy
@@ -44,6 +49,10 @@ module Api
     
       def student_params
         params.require(:student).permit(:first_name, :last_name, :surname, :class_id, :school_id)
+      end
+
+      def generate_token(user_id)
+        Digest::SHA256.hexdigest("#{user_id}#{SECRET_SALT}")
       end
     end    
   end
