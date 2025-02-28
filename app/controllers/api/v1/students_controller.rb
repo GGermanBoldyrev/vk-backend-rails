@@ -7,13 +7,13 @@ module Api
 
       def create
         student_dto = StudentDTO.new(student_params)
-        student = StudentService.new.create(student_dto)
-
-        if student
-          token = generate_token(student.id)
-          render json: student, status: :created, headers: { 'X-Auth-Token' => token }
+        result = StudentService.new.create(student_dto)
+      
+        if result[:error]
+          render json: { error: result[:error] }, status: result[:status]
         else
-          render json: { error: 'Ошибка создания' }, status: :unprocessable_entity
+          token = generate_token(result[:student].id)
+          render json: result[:student], status: result[:status], headers: { 'X-Auth-Token' => token }
         end
       end
     
