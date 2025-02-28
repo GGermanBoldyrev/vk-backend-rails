@@ -4,10 +4,19 @@ class StudentService
   end
 
   def create(student_dto)
-    student = @repository.create(student_dto.to_h)
-    StudentLogger.log_creation(student) if student
-    student
+  # Проверяем существование класса
+  raise 'Класс не найден' unless Classroom.exists?(student_dto.class_id)
+
+  # Создаем ученика и проверяем на ошибки
+  student = Student.new(student_dto.to_h)
+
+  if student.save
+    StudentLogger.log_creation(student)
+    return student
+  else
+    raise 'Ошибка при создании ученика: ' + student.errors.full_messages.join(', ')
   end
+end
 
   def delete(student_id)
     student = @repository.find(student_id)

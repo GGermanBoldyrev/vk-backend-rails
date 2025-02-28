@@ -4,14 +4,12 @@ module Api
   module V1
     class StudentsController < ApplicationController
       def create
-        student_dto = ::StudentDto.new(student_params)
+        student_dto = StudentDTO.new(student_params)
         student = StudentService.new.create(student_dto)
-    
-        if student
-          render json: student, status: :created
-        else
-          render json: { error: 'Ошибка создания' }, status: :unprocessable_entity
-        end
+
+        render json: student, status: :created
+      rescue => e
+        render json: { error: e.message }, status: :unprocessable_entity
       end
     
       def destroy
@@ -45,7 +43,7 @@ module Api
       private
     
       def student_params
-        params.permit(:first_name, :last_name, :surname, :class_id, :school_id)
+        params.require(:student).permit(:first_name, :last_name, :surname, :class_id, :school_id)
       end
     end    
   end
